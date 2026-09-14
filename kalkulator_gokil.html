@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kalkulator super gokil</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .kalkulator {
+        background-color: #ffffff;
+        width: 100%;
+        max-width: 360px;
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(2, 132, 199, 0.15);
+        overflow: hidden;
+        border: 2px solid #f0f9ff;
+      }
+
+      .wadah-layar {
+        background-color: #0284c7;
+        padding: 30px 20px;
+        text-align: right;
+      }
+
+      .layar {
+        color: #ffffff;
+        font-size: 2.2rem;
+        font-weight: bold;
+        min-height: 50px;
+        word-wrap: break-word;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .tombol-tombol {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        padding: 24px;
+        background-color: #ffffff;
+      }
+
+      button {
+        border: none;
+        background-color: #f0f9ff;
+        color: #0369a1;
+        font-size: 1.3rem;
+        font-weight: 600;
+        padding: 16px 0;
+        border-radius: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+      }
+
+      button:hover {
+        background-color: #e0f2fe;
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .tombol-operasi {
+        background-color: #38bdf8;
+        color: #ffffff;
+      }
+
+      .tombol-operasi:hover {
+        background-color: #0ea5e9;
+      }
+
+      .tombol-sama-dengan {
+        background-color: #0284c7;
+        color: #ffffff;
+      }
+
+      .tombol-sama-dengan:hover {
+        background-color: #0369a1;
+      }
+
+      .tombol-hapus {
+        background-color: #ef4444;
+        color: #ffffff;
+      }
+
+      .tombol-hapus:hover {
+        background-color: #dc2626;
+      }
+
+      .latar-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        padding: 20px;
+      }
+
+      .popup {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 20px;
+        max-width: 340px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        border: 3px solid #0ea5e9;
+        animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      @keyframes popIn {
+        0% {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .ikon-popup {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #0c4a6e;
+        margin-bottom: 10px;
+      }
+
+      .popup h2 {
+        color: #0c4a6e;
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+      }
+
+      .popup p {
+        color: #64748b;
+        font-size: 0.95rem;
+        margin-bottom: 24px;
+        line-height: 1.5;
+      }
+
+      .tombol-popup {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 10px;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-weight: bold;
+      }
+
+      .tombol-bayar {
+        background-color: #0284c7;
+        color: white;
+      }
+
+      .tombol-bayar:hover {
+        background-color: #0369a1;
+      }
+
+      .tombol-gratis {
+        background-color: #f1f5f9;
+        color: #475569;
+      }
+
+      .tombol-gratis:hover {
+        background-color: #e2e8f0;
+        color: #1e293b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="kalkulator">
+      <div class="wadah-layar">
+        <div class="layar" id="layar">0</div>
+      </div>
+      <div class="tombol-tombol">
+        <button class="tombol-hapus" onclick="hapusLayar()">c</button>
+        <button onclick="tambahAngka('7')">7</button>
+        <button onclick="tambahAngka('8')">8</button>
+        <button class="tombol-operasi" onclick="pilihOperasi('÷')">÷</button>
+        <button onclick="tambahAngka('4')">4</button>
+        <button onclick="tambahAngka('5')">5</button>
+        <button onclick="tambahAngka('6')">6</button>
+        <button class="tombol-operasi" onclick="pilihOperasi('×')">×</button>
+        <button onclick="tambahAngka('1')">1</button>
+        <button onclick="tambahAngka('2')">2</button>
+        <button onclick="tambahAngka('3')">3</button>
+        <button class="tombol-operasi" onclick="pilihOperasi('-')">-</button>
+        <button onclick="tambahAngka('0')">0</button>
+        <button onclick="tambahAngka('.')">.</button>
+        <button class="tombol-sama-dengan" onclick="hitungHasil()">=</button>
+        <button class="tombol-operasi" onclick="pilihOperasi('+')">+</button>
+      </div>
+    </div>
+    
+    <div class="latar-popup" id="popupBayar">
+      <div class="popup">
+        <div class="ikon-popup">😹</div>
+        <h2>bayar boss</h2>
+        <p>
+          bayar boss, in this economy mau yang gratisan?? kuatin dulu rupiah mu
+          bos
+        </p>
+        <button class="tombol-popup tombol-bayar" onclick="puraPuraBayar()">
+          bayar bos cuma ($150/bln), ini bukan desa bos
+        </button>
+        <button class="tombol-popup tombol-gratis" onclick="pilihGratisan()">
+          gak punya duit yak? nih yg gratis
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const layar = document.getElementById("layar");
+      const popup = document.getElementById("popupBayar");
+      
+      let ekspresi = ""; 
+      let kuotaGratis = 2; 
+      let habisDihitung = false;
+
+      const jawabanNgeselin = [
+        "hitung aja sendiri! 🙄",
+        "soal gini aja pake kalkulator... 🤦‍♂️",
+        "jari tanganmu kan ada 10, pake dong",
+        "coba tanya anak sd di tetangga",
+        "otak kamu buat apa kalau semua dipikirin kalkulator?",
+        "trial habis! silakan pakai sempoa.",
+        "masa gini aja ga bisa? bodo kali 😹",
+        "404: jawaban tidak ditemukan (males ngitung)",
+      ];
+
+      function tambahAngka(angka) {
+        if (habisDihitung) {
+          ekspresi = "";
+          habisDihitung = false;
+        }
+        
+        if (isNaN(layar.innerText.charAt(0)) && layar.innerText !== "0") {
+            ekspresi = "";
+        }
+
+        if (ekspresi === "0" || ekspresi === "") {
+          ekspresi = angka;
+        } else {
+          if (ekspresi.length < 15) {
+            ekspresi += angka;
+          }
+        }
+        layar.innerText = ekspresi || "0";
+      }
+
+      function hapusLayar() {
+        ekspresi = "";
+        habisDihitung = false;
+        layar.innerText = "0";
+      }
+
+      function pilihOperasi(op) {
+        if (habisDihitung) habisDihitung = false;
+        if (ekspresi === "" && layar.innerText !== "0" && !isNaN(layar.innerText)) {
+            ekspresi = layar.innerText;
+        } else if (ekspresi === "") {
+            ekspresi = "0";
+        }
+
+        const charTerakhir = ekspresi.slice(-1);
+        if (['+', '-', '×', '÷'].includes(charTerakhir)) {
+          ekspresi = ekspresi.slice(0, -1) + op;
+        } else {
+          ekspresi += op;
+        }
+        
+        layar.innerText = ekspresi;
+      }
+
+      function hitungHasil() {
+        if (kuotaGratis > 0) {
+          try {
+            let hitungan = ekspresi.replace(/×/g, '*').replace(/÷/g, '/');
+            let hasil = eval(hitungan);
+            hasil = Math.round(hasil * 100000000) / 100000000;
+            layar.innerText = hasil;
+            ekspresi = hasil.toString();
+            kuotaGratis--; 
+            habisDihitung = true;
+          } catch (e) {
+            layar.innerText = "Error 😹";
+            ekspresi = "";
+            habisDihitung = true;
+          }
+        } else {
+          munculinPopup();
+        }
+      }
+
+      function munculinPopup() {
+        popup.style.display = "flex";
+      }
+
+      function puraPuraBayar() {
+        alert(
+          "⚠️ pembayaran gagal!😹\n\nalasan: saldo rekening kamu kurang (atau sistem kami lagi males ngurusin bayaranmu)."
+        );
+      }
+
+      function pilihGratisan() {
+        popup.style.display = "none";
+        const acak = Math.floor(Math.random() * jawabanNgeselin.length);
+        layar.innerText = jawabanNgeselin[acak];
+        ekspresi = "";
+        habisDihitung = true;
+      }
+    </script>
+  </body>
+</html>
